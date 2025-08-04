@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Feedback Analysis Dashboard</h1>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total Feedback</h3>
+                <p>{{ total }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Avg. Rating</h3>
+                <p>{{ avg_rating }}/5</p>
+            </div>
+        </div>
+
+        {% if total > 0 %}
+        <div class="chart">
+            <img src="{{ url_for('static', filename='sentiment_chart.png') }}" alt="Sentiment Analysis">
+        </div>
+        {% endif %}
+
+        <h2>Recent Feedback</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Rating</th>
+                <th>Comments</th>
+                <th>Sentiment</th>
+            </tr>
+            {% for feedback in feedbacks %}
+            <tr>
+                <td>{{ feedback.name }}</td>
+                <td>{{ feedback.rating }}/5</td>
+                <td>{{ feedback.comments }}</td>
+                <td>{{ feedback.sentiment|round(2) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+        <a href="/submit" class="btn">Submit New Feedback</a>
+    </div>
+</body>
+</html>
